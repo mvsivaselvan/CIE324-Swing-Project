@@ -24,7 +24,7 @@ void loop() {
   lcs.readRaw(forces);
   for (int i=0; i<NUMLC; ++i) {;
     Serial.print(forces[i]);  
-    Serial.print( (i!=NUMLC-1)?"\t":"\n");
+    Serial.print( (i!=NUMLC-1)?",":"\r\n");
   }
   delay(100);
 }
