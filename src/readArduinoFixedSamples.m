@@ -1,4 +1,4 @@
-function readArduino(src, ~, numSamples)
+function readArduinoFixedSamples(src, ~, numSamples)
 
 % Read the ASCII data from the serialport object.
 data = readline(src);
