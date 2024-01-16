@@ -1,7 +1,13 @@
-function plotAcquiredData(~, ~, arduino, axisHandle)
+function plotAcquiredData(src, ~, arduino, axisHandle)
+
+% src is the app object
 
 %fprintf('Got it!!\n');
 
-plot(axisHandle, arduino.UserData.Data(:,1:2))
+chanToPlot = src.getChannelsToPlot();
+
+if any(chanToPlot)
+    plot(axisHandle, arduino.UserData.Data(:,chanToPlot))
+end
 
 end
