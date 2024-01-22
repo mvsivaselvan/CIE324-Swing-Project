@@ -43,12 +43,26 @@ void setup() {
 }
 
 void loop() {
-  imu::Vector<3> acc = myIMU.getVector(Adafruit_BNO055::VECTOR_ACCELEROMETER);
+  imu::Vector<3> acc = myIMU.getVector(Adafruit_BNO055::VECTOR_ACCELEROMETER); //accel
+  imu::Vector<3> omega = myIMU.getVector(Adafruit_BNO055::VECTOR_GYROSCOPE); // angular vel
+  imu::Vector<3> orient = myIMU.getVector(Adafruit_BNO055::VECTOR_EULER); // orientation
   Serial.print(acc.x());
   Serial.print(",");
   Serial.print(acc.y());
   Serial.print(",");
   Serial.print(acc.z());
+  Serial.print(",");
+  Serial.print(omega.x());
+  Serial.print(",");
+  Serial.print(omega.y());
+  Serial.print(",");
+  Serial.print(omega.z());
+  Serial.print(",");
+  Serial.print(orient.x());
+  Serial.print(",");
+  Serial.print(orient.y());
+  Serial.print(",");
+  Serial.print(orient.z());
   Serial.print(",");
   
   lcs.readRaw(forces);
