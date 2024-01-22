@@ -8,16 +8,20 @@
 
 /////////////////////////////////////////////////////
 // LOAD CELL-related defintions
-#define NUMLC 2 // number of load cells
+#define NUMLC 6 // number of load cells
 
 // Pins for the HX711 amplifiers
 #define CLK 2 // clock pin shared across all the HX711s
 #define LC1 3 // data pin for load cell #1
 #define LC2 4 // data pin for load cell #2
+#define LC3 5 // data pin for load cell #3
+#define LC4 6 // data pin for load cell #4
+#define LC5 7 // data pin for load cell #5
+#define LC6 8 // data pin for load cell #6
 
 # define GAIN 128 // Gain for HX711s
 
-byte DOUTS[NUMLC] = {LC1, LC2};
+byte DOUTS[NUMLC] = {LC1, LC2, LC3, LC4, LC5, LC6};
 
 HX711MULTI lcs(NUMLC, DOUTS, CLK, GAIN);
 
