@@ -1,6 +1,7 @@
 // For HX711
 #include <HX711-multi.h>
 
+// For BNO055 IMU
 #include <Wire.h>
 #include <Adafruit_Sensor.h>
 #include <Adafruit_BNO055.h>
@@ -23,7 +24,7 @@
 
 byte DOUTS[NUMLC] = {LC1, LC2, LC3, LC4, LC5, LC6};
 
-HX711MULTI lcs(NUMLC, DOUTS, CLK, GAIN);
+// HX711MULTI lcs(NUMLC, DOUTS, CLK, GAIN);
 
 long int forces[NUMLC];
 /////////////////////////////////////////////////////
@@ -31,8 +32,14 @@ long int forces[NUMLC];
 /////////////////////////////////////////////////////
 // IMU-related definitions
 Adafruit_BNO055 myIMU = Adafruit_BNO055();
+/////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////
+// Timing-related definitions
+unsigned long startMillis;
+unsigned long loopBeginMillis;
+/////////////////////////////////////////////////////
+
 
 void setup() {
   Serial.begin(57600);
@@ -40,12 +47,18 @@ void setup() {
 
   myIMU.begin();
   myIMU.setExtCrystalUse(true);
+
+  startMillis = millis();
 }
 
 void loop() {
+  loopBeginMillis = millis();
   imu::Vector<3> acc = myIMU.getVector(Adafruit_BNO055::VECTOR_ACCELEROMETER); //accel
   imu::Vector<3> omega = myIMU.getVector(Adafruit_BNO055::VECTOR_GYROSCOPE); // angular vel
   imu::Vector<3> orient = myIMU.getVector(Adafruit_BNO055::VECTOR_EULER); // orientation
+
+  Serial.print(millis());
+  Serial.print(",");
   Serial.print(acc.x());
   Serial.print(",");
   Serial.print(acc.y());
@@ -62,13 +75,15 @@ void loop() {
   Serial.print(",");
   Serial.print(orient.y());
   Serial.print(",");
-  Serial.print(orient.z());
-  Serial.print(",");
+  Serial.println(orient.z());
+  // Serial.print(",");
   
-  lcs.readRaw(forces);
+  /*lcs.readRaw(forces);
   for (int i=0; i<NUMLC; ++i) {;
     Serial.print(forces[i]);  
     Serial.print( (i!=NUMLC-1)?",":"\r\n");
   }
-  delay(100);
+  delay(100);*/
+
+  while(millis()-loopBeginMillis < 100);
 }

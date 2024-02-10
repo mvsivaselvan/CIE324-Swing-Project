@@ -17,3 +17,7 @@ In Windows Powershell (assuming Git for Windows, and ideally posh-git, have alre
 3. `git fetch origin pull/2/head:pr2`
 4. `git checkout pr2`
 
+## Timing
+* Calling ```myIMU.getVector(Adafruit_BNO055::VECTOR_ACCELEROMETER)``` on the BNO055 + writing just acceleration to the serial port takes 5-6ms (haven't explored split between reading from BNO055 and serial write).
+* It takes 10-11ms if angular velocity and orientation are also read from BNO055 and written to serial port.
+
