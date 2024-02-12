@@ -24,7 +24,7 @@
 
 byte DOUTS[NUMLC] = {LC1, LC2, LC3, LC4, LC5, LC6};
 
-// HX711MULTI lcs(NUMLC, DOUTS, CLK, GAIN);
+HX711MULTI lcs(NUMLC, DOUTS, CLK, GAIN);
 
 long int forces[NUMLC];
 /////////////////////////////////////////////////////
@@ -36,6 +36,7 @@ Adafruit_BNO055 myIMU = Adafruit_BNO055();
 
 /////////////////////////////////////////////////////
 // Timing-related definitions
+#define LOOPTIME 100
 unsigned long startMillis;
 unsigned long loopBeginMillis;
 /////////////////////////////////////////////////////
@@ -53,12 +54,20 @@ void setup() {
 
 void loop() {
   loopBeginMillis = millis();
+
+  // Read IMU
   imu::Vector<3> acc = myIMU.getVector(Adafruit_BNO055::VECTOR_ACCELEROMETER); //accel
   imu::Vector<3> omega = myIMU.getVector(Adafruit_BNO055::VECTOR_GYROSCOPE); // angular vel
   imu::Vector<3> orient = myIMU.getVector(Adafruit_BNO055::VECTOR_EULER); // orientation
+  
+  // Read HX711s
+  lcs.readRaw(forces);
 
+  // Write time
   Serial.print(millis());
   Serial.print(",");
+
+  // Write IMU data
   Serial.print(acc.x());
   Serial.print(",");
   Serial.print(acc.y());
@@ -75,15 +84,15 @@ void loop() {
   Serial.print(",");
   Serial.print(orient.y());
   Serial.print(",");
-  Serial.println(orient.z());
-  // Serial.print(",");
+  Serial.print(orient.z());
+  Serial.print(",");
   
-  /*lcs.readRaw(forces);
+  // Write load cell data
   for (int i=0; i<NUMLC; ++i) {;
     Serial.print(forces[i]);  
     Serial.print( (i!=NUMLC-1)?",":"\r\n");
   }
-  delay(100);*/
 
-  while(millis()-loopBeginMillis < 100);
+  // Wait until end of looptime
+  while(millis()-loopBeginMillis < LOOPTIME);
 }
