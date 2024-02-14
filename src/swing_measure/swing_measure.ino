@@ -36,6 +36,7 @@ Adafruit_BNO055 myIMU = Adafruit_BNO055();
 
 /////////////////////////////////////////////////////
 // Timing-related definitions
+#define BAUDRATE 115200
 #define LOOPTIME 100
 unsigned long startMillis;
 unsigned long loopBeginMillis;
@@ -43,7 +44,7 @@ unsigned long loopBeginMillis;
 
 
 void setup() {
-  Serial.begin(57600);
+  Serial.begin(BAUDRATE);
   Serial.flush();
 
   myIMU.begin();
